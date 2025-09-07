@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="https://i.ibb.co/hFLqtg0C/smileyguyfavicon.png" type="image/x-icon">
+<h1>COMMENT SECTION!!</h1>
+<hr>
+<h2>Here, type whatever the hell you want!</h2>
+<div id="comments-section">
+    <form id="comment-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="comment">THE Comment:</label>
+        <textarea id="comment" name="comment" rows="4" required></textarea>
+        <br>
+        <button type="submit">Post Comment</button>
+    </form>
+    <ul id="comments-list"></ul>
+</div>
+<script>
+document.getElementById('comment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const comment = document.getElementById('comment').value.trim();
+    if (name && comment) {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${name}:</strong> ${comment}`;
+        document.getElementById('comments-list').appendChild(li);
+        document.getElementById('comment-form').reset();
+    }
+});
+</script>
