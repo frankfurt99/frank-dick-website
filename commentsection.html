@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="icon" href="https://i.ibb.co/hFLqtg0C/smileyguyfavicon.png" type="image/x-icon">
+    
 <h1>COMMENT SECTION!!</h1>
 <hr>
 <h2>Here, type whatever the hell you want!</h2>
@@ -18,14 +19,36 @@
     <ul id="comments-list"></ul>
 </div>
 <script>
+// Load comments from localStorage on page load
+window.addEventListener('DOMContentLoaded', function() {
+    const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+    const commentsList = document.getElementById('comments-list');
+    comments.forEach(function(commentObj) {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${commentObj.name}:</strong> ${commentObj.comment} <em style="font-size:smaller;">(${commentObj.time})</em>`;
+        commentsList.appendChild(li);
+    });
+});
+
 document.getElementById('comment-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value.trim();
     const comment = document.getElementById('comment').value.trim();
     if (name && comment) {
+        const now = new Date();
+        const time = now.toLocaleString();
+        const commentObj = { name, comment, time };
+
+        // Save to localStorage
+        const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+        comments.push(commentObj);
+        localStorage.setItem('comments', JSON.stringify(comments));
+
+        // Add to UI
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${name}:</strong> ${comment}`;
+        li.innerHTML = `<strong>${name}:</strong> ${comment} <em style="font-size:smaller;">(${time})</em>`;
         document.getElementById('comments-list').appendChild(li);
+
         document.getElementById('comment-form').reset();
     }
 });
